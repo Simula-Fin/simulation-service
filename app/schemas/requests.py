@@ -48,5 +48,11 @@ class FinancingSimulationRequest(BaseRequest):
     tax: float  
     calculation_method: CalculationMethod  
 
+class RSAEncryptRequest(BaseModel):
+    message: str
+    public_key: str
 
+class RSADecryptRequest(BaseModel):
+    message: str
+    private_key: str
 
