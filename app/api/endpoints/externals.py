@@ -1,7 +1,9 @@
 from fastapi import APIRouter
-from app.schemas.requests import RSAEncryptRequest, RSADecryptRequest
+from app.schemas.requests import RSAEncryptRequest, RSADecryptRequest, ChatBotRequest
 import requests
 from fastapi import HTTPException
+from app.core.config import get_settings
+
 
 router = APIRouter()
 
@@ -28,6 +30,34 @@ async def generate_rsa_keys(request: RSADecryptRequest):
         )
         response.raise_for_status()  # Raise an exception for HTTP errors
     except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    return {"status": "Request sent", "response": response.json()}
+
+
+apiKey = get_settings().security.external_api_key.get_secret_value()
+@router.post("/bot", description="Send message to bot")
+async def send_message_to_bot(request: ChatBotRequest):
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {apiKey}"
+    } 
+    payload = {
+        "model": "gpt-3.5-turbo-instruct",
+        "prompt": request.prompt,
+        "max_tokens": 2048,
+        "temperature": 0.5
+    }
+    try:
+        response = requests.post(
+            "https://api.openai.com/v1/completions",
+            headers=headers,
+            json=payload
+        )
+        response.raise_for_status()  # Raise an exception for HTTP errors
+    except requests.exceptions.RequestException as e:
+        print (e)
         raise HTTPException(status_code=500, detail=str(e))
     
     return {"status": "Request sent", "response": response.json()}
