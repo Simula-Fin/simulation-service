@@ -35,9 +35,9 @@ async def generate_rsa_keys(request: RSADecryptRequest):
     return {"status": "Request sent", "response": response.json()}
 
 
-apiKey = get_settings().security.external_api_key.get_secret_value()
 @router.post("/bot", description="Send message to bot")
 async def send_message_to_bot(request: ChatBotRequest):
+    apiKey = get_settings().security.external_api_key.get_secret_value()
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
