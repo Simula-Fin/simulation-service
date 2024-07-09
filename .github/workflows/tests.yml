@@ -40,6 +40,7 @@ jobs:
     - name: Apply Database Migrations
       env:
         SECURITY__JWT_SECRET_KEY: very-not-secret
+        SECURITY__EXTERNAL_API_KEY: very-not
         DATABASE__HOSTNAME: localhost
         DATABASE__PORT: 5432
         DATABASE__DB: my_test_db
@@ -52,6 +53,7 @@ jobs:
     - name: Run tests
       env:
         SECURITY__JWT_SECRET_KEY: very-not-secret
+        SECURITY__EXTERNAL_API_KEY: very-not
         DATABASE__HOSTNAME: localhost
         DATABASE__PORT: 5432
         DATABASE__DB: my_test_db

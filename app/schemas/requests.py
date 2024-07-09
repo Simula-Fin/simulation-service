@@ -48,5 +48,16 @@ class FinancingSimulationRequest(BaseRequest):
     tax: float  
     calculation_method: CalculationMethod  
 
+class RSAEncryptRequest(BaseModel):
+    message: str
+    public_key: str
 
+class RSADecryptRequest(BaseModel):
+    message: str
+    private_key: str
 
+class ChatBotRequest(BaseModel):
+    prompt: str
+    model: str = "gpt-3.5-turbo"
+    max_tokens: int = 2048
+    temperature: float = 0.5

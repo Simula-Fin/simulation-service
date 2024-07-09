@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.api import api_messages
-from app.api.endpoints import auth, users, simulations
+from app.api.endpoints import auth, users, simulations, externals
 
 auth_router = APIRouter()
 auth_router.include_router(auth.router, prefix="/auth", tags=["auth"])
@@ -33,3 +33,4 @@ api_router = APIRouter(
 )
 api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(simulations.router, prefix="/simulations", tags=["simulations"])
+api_router.include_router(externals.router, prefix="/externals", tags=["externals"])
